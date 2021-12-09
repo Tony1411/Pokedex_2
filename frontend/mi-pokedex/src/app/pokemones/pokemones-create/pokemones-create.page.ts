@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PokemonesService } from 'src/app/_services/pokemones.service';
+import { PhotoService } from 'src/app/_services/photo.service';
+
+
 
 @Component({
   selector: 'app-pokemones-create',
@@ -15,7 +18,8 @@ export class PokemonesCreatePage implements OnInit {
   constructor(
      private formBuilder : FormBuilder,
      private pokemonesService : PokemonesService,
-     private router : Router
+     private router : Router,
+     private photoService : PhotoService
   ) {
     this.pokemonForm = this.formBuilder.group({
       nombre: [''],
@@ -42,6 +46,12 @@ export class PokemonesCreatePage implements OnInit {
         console.error(error);
       }
     );
+  }
+
+  async openCamera() {
+    const picture_data = await this.photoService.takePicture();
+    
+    this.pokemonForm.patchValue(picture_data);
   }
 
 }

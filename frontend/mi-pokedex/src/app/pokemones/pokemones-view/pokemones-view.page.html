@@ -4,36 +4,36 @@
       <ion-back-button defaultHref="pokemons"></ion-back-button>
     </ion-buttons>
 
-    <ion-title *ngFor="let item of pokemon">{{item.nombre}}</ion-title>
+    <ion-title *ngIf="pokemon" size="large">{{pokemon.nombre}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <ion-grid *ngFor="let item of pokemon">
+  <ion-grid *ngIf="pokemon">
     <ion-row>
       <ion-col>
         <div class="ion-text-center">
-          <img src={{item.img}} />
-          <h1>{{item.nombre}}</h1>
-          <p>Peso: {{item.peso}} kg</p>
-          <p>Altura: {{item.altura}} m</p>
-          <p>Tipo: {{item.tipo}}</p>
-          <p>Categoria: {{item.categoria}}</p>
-          <p>Habilidad: {{item.habilidad}}</p>
+        <img *ngIf="pokemon.img" [src]="getPictureUrl(pokemon.img)"/>
+          <h1>{{pokemon.nombre}}</h1>
+          <p>Peso: {{pokemon.peso}} kg</p>
+          <p>Altura: {{pokemon.altura}} m</p>
+          <p>Tipo: {{pokemon.tipo}}</p>
+          <p>Categoria: {{pokemon.categoria}}</p>
+          <p>Habilidad: {{pokemon.habilidad}}</p>
         </div>
       </ion-col>
     </ion-row>
 
     <ion-row>
       <ion-col>
-       <ion-button expand="block" color="danger" [routerLink]="['/pokemons/delete', item.id]"> Eliminar </ion-button>
+       <ion-button expand="block" color="danger" [routerLink]="['/pokemons/delete', pokemon.id]"> Eliminar </ion-button>
       </ion-col>
     </ion-row>
 
     <ion-row>
       <ion-col>
-       <ion-button expand="block" color="warning" [routerLink]="['/pokemons/edit', item.id]"> Editar </ion-button>
+       <ion-button expand="block" color="warning" [routerLink]="['/pokemons/edit', pokemon.id]"> Editar </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

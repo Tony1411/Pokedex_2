@@ -2,11 +2,15 @@ const mysql = require('mysql');
 const express = require('express');
 
 var app = express();
-app.use(express.json());
 
 var cors = require('cors');
 app.use(cors());
 
+var picturesDirectory = 'figures/';
+var fs = require('fs');
+
+
+app.use(express.json({limit: '50mb'}));
 
 //Mostrar pokemones
 app.get('/pokemons', function(req, res){
@@ -47,11 +51,11 @@ app.get('/pokemons/:id',function(req,res){
     });
     connection.connect();
 
-    var myQuery = "SELECT id, nombre, altura, categoria, peso, habilidad, tipo, img FROM pokemon WHERE id = ?;";
+    var myQuery = "SELECT id, nombre, altura, categoria, peso, habilidad, tipo, img FROM pokemon WHERE id = ? ";
     var myValues = [req.params.id];
     connection.query(myQuery, myValues, function(error,results,fields){
         if (error) throw error;     
-        res.send(results);
+        res.send(results[0]);
         connection.end();
     });
 });
@@ -155,6 +159,19 @@ app.delete('/pokemons/:id',function(req,res){
     });
 });
 
+app.post('/figures', function(req, res){
+    var fileName = `${new Date().getTime()}.jpeg`;
+    var picture_url = `${picturesDirectory}${fileName}`;
+  
+    fs.writeFile(`${picture_url}`, req.body.img, 'base64', function(error) {
+      if (error) throw error;
+  
+      res.send({img: picture_url});
+    });
+  })
+  
+app.use('/figures', express.static('figures'))
+  
 app.listen(3000, function(){
     console.log("Servidor 3000 abierto!!!")
 })

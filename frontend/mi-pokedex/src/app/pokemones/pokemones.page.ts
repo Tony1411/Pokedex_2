@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PokemonesService } from '../_services/pokemones.service';
-import { range } from 'rxjs';
 
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-pokemones',
@@ -9,7 +9,7 @@ import { range } from 'rxjs';
   styleUrls: ['./pokemones.page.scss'],
 })
 export class PokemonesPage implements OnInit {
-  pokemones : any[];
+  pokemones : any;
 
   constructor(
     private pokemonesService: PokemonesService
@@ -24,8 +24,13 @@ export class PokemonesPage implements OnInit {
      })
   }
 
+  getPictureUrl(picture_url) {
+    if (picture_url.includes("http://") || picture_url.includes("https://")){
+      return picture_url;  
+    }
+    return environment.apiUrl + "/" + picture_url;
+  }
+ 
 }
 
-//}, error => {
-//  console.error(error);
-//});
+
