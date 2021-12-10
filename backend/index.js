@@ -7,7 +7,7 @@ var cors = require('cors');
 app.use(cors());
 
 var picturesDirectory = 'figures/';
-var fs = require('fs');
+var fs = require("fs");
 
 
 app.use(express.json({limit: '50mb'}));
@@ -163,10 +163,10 @@ app.post('/figures', function(req, res){
     var fileName = `${new Date().getTime()}.jpeg`;
     var picture_url = `${picturesDirectory}${fileName}`;
   
-    fs.writeFile(`${picture_url}`, req.body.img, 'base64', function(error) {
+    fs.writeFile(`${picture_url}`, req.body.picture, 'base64', function(error) {
       if (error) throw error;
   
-      res.send({img: picture_url});
+      res.send({img : picture_url});
     });
   })
   
